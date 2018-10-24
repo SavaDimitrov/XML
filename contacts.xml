@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE contacts [
+        <!ELEMENT contacts (contact*) >
+            <!ELEMENT contact (name, photo?, email*, phone*, (label | labels)? ) >
+                <!ELEMENT name ((given, last) | given+ | last+) >
+                <!ELEMENT given (#PCDATA) >
+                <!ELEMENT last (#PCDATA) >
+                <!ELEMENT photo EMPTY >
+                    <!ATTLIST photo uri (CDATA) #REQUIRED >
+                <!ELEMENT email (#PCDATA) >
+                    <!ATTLIST email type (personal | business) #IMPLIED>
+                <!ELEMENT phone (#PCDATA) >
+                    <!ATTLIST phone type (personal | business | mobile) "personal" >
+                <!ELEMENT labels (label)+ >
+                <!ELEMENT label (#PCDATA) >
+
+] >
+<!-- ? - samo vednuj, * - 0 ili poveche, + pone vednuj-->
+<contacts> <!-- Съдържа нула или повече контакта -->
+    <contact>
+        <name> <!-- Задължителен елемент -->
+            <given>Форест</given> <!-- Задължителен елемент -->
+            <last>Гъмп</last> <!-- Задължителен елемент -->
+        </name>
+        <!-- Незадължителен празен елемент. `uri` е задължителен атрибут -->
+        <photo uri="https://example.com/pics/gump.jpg" />
+        <!--
+            Един контакт може да има нула или повече е-мейл адреса.
+            `type` може да бъде `personal` или `business`.
+            `type` не е задължителен атрибут.
+        -->
+        <email type="personal">gump@example.com</email>
+        <email>gump@example.net</email>
+        <!--
+            Един контакт може да има нула или повече телефона.
+            type може да бъде `personal`, `business` или `mobile`.
+            Ако не е зададен изрично, стойността по подразбиране е
+            `personal`.
+        -->
+        <phone type="mobile">+1 202 555 0196</phone>
+        <phone>+1-202-555-0176</phone>
+        <labels> <!-- Незадължителен елемент, съдържащ един или повече етикета. -->
+            <label>Колеж</label>
+            <label>Приятели</label>
+        </labels>
+    </contact>
+    <contact>
+        <name>
+            <given>Джон</given>
+            <last>Уотсън</last>
+        </name>
+        <!--
+            Ако има само един елемент е допустимо да бъде вложен директно
+            в `contact`
+        -->
+        <label>Доктори</label>
+    </contact>
+</contacts>
