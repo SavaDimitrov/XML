@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns = "http://www.w3.org/2001/XMLSchema"
+        xmlns:atom = "http://www.w3.org/2005/Atom"
+        targetNamespace = "http://www.w3.org/2005/Atom"
+        elementFormDefault = "qualified"
+>
+    <simpleType name = "email">
+        <restriction base = "string">
+            <pattern value = ".+@.+" />
+        </restriction>
+    </simpleType>
+
+    <!-- Types -->
+    <complexType name = "author">
+        <sequence>
+            <element name = "name" type="string" />
+            <element name ="email" type="atom:email"/>
+            <element name = "uri" type = "anyURI" />
+        </sequence>
+    </complexType>
+
+    <complexType name="link">
+        <attribute name = "rel" type = "string" />
+        <attribute name = "href" type = "anyURI" />
+    </complexType>
+
+    <complexType name="contributingPerson">
+        <sequence>
+            <element name = "name" type = "string" />
+        </sequence>
+    </complexType>
+    <!-- Types. -->
+
+    <element name="feed">
+        <complexType>
+            <sequence>
+                <element name = "id" type="anyURI" />
+                <element name = "title" type = "string" />
+                <element name = "update" type = "dateTime" />
+                <element name = "author" minOccurs = "1" maxOccurs = "unbounded" type = "atom:author" />
+                <element name = "link" type="atom:link" />
+                <element name = "contributor" minOccurs = "0" maxOccurs = "unbounded" type="atom:contributingPerson" />
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="entry">
+        <complexType>
+            <sequence>
+                <element name ="id" type="anyURI" />
+                <element name = "title" type = "string" />
+                <element name = "update" type = "dateTime" />
+                <element name="author" minOccurs = "1" maxOccurs = "unbounded">
+                    <complexType>
+                        <sequence>
+                            <element name = "name" type="string" />
+                        </sequence>
+                    </complexType>
+                </element>
+                <element name = "link" type = "atom:link" />
+                <element name = "contributor" minOccurs = "1" maxOccurs = "unbounded" type="atom:contributingPerson" />
+                <element name = "summary" type = "string" />
+            </sequence>
+        </complexType>
+    </element>
+
+</schema>
