@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns = "http://www.w3.org/2001/XMLSchema"
+        xmlns:atom = "http://www.w3.org/2005/Atom"
+        targetNamespace = "http://www.w3.org/2005/Atom"
+        elementFormDefault = "qualified"
+>
+    <!-- Complex Types -->
+    <complexType name="Feed">
+        <sequence>
+            <group ref="atom:MetaTags" />
+
+            <element name="entry" type = "atom:Entry" minOccurs = "0" maxOccurs = "unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="Entry">
+        <sequence>
+           <!-- <element name ="id" type="anyURI" />
+            <element name = "title" type = "string" />
+            <element name = "update" type = "dateTime" />
+            <element name="author" minOccurs = "1" maxOccurs = "unbounded">
+                <complexType>
+                    <sequence>
+                        <element name = "name" type="string" />
+                    </sequence>
+                </complexType>
+            </element>
+            <element name = "link" type = "atom:link" />
+            <element name = "contributor" minOccurs = "1" maxOccurs = "unbounded" type="atom:contributingPerson" />-->
+            <group ref="atom:MetaTags" />
+        </sequence>
+    </complexType>
+
+    <complexType name = "author">
+        <sequence>
+            <element name = "name" type="string" />
+            <element name = "uri" type = "anyURI" />
+            <element name ="email" type="atom:email"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="link">
+        <attribute name = "rel" type = "atom:RelType" default = "alternate"/>
+        <attribute name = "href" type = "anyURI" use="required"/>
+    </complexType>
+
+    <complexType name="contributingPerson">
+        <sequence>
+            <element name = "name" type = "string" />
+        </sequence>
+    </complexType>
+    <!-- Complex Types. -->
+
+    <!-- Simple Types -->
+    <simpleType name = "email">
+        <restriction base = "string">
+            <pattern value = ".+@.+" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name = "relTypeEnum">
+        <restriction base = "string">
+            <enumeration value = "alternate" />
+            <enumeration value = "enclosure" />
+            <enumeration value = "related" />
+            <enumeration value = "self" />
+            <enumeration value = "via" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name = "RelType">
+        <union memberTypes="atom:relTypeEnum anyURI" />
+    </simpleType>
+    <!-- Simple Types -->
+
+    <group name="MetaTags">
+        <sequence>
+            <element name = "id" type="anyURI" />
+            <element name = "title" type = "string" />
+            <element name = "updated" type = "dateTime" />
+            <element name = "link" type="atom:link" minOccurs="0" maxOccurs="unbounded"/>
+            <element name = "author" type = "atom:author" minOccurs = "0" maxOccurs = "unbounded" />
+            <element name = "contributor" type="atom:contributingPerson" minOccurs = "0" maxOccurs = "unbounded" />
+            <element name = "summary" type = "string" minOccurs = "0" />
+        </sequence>
+    </group>
+
+    <element name="feed" type="atom:Feed" />
+</schema>
